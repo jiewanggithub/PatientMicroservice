@@ -23,7 +23,7 @@ For **Sprint 1**, this repository delivers only the **OpenAPI specification** (`
 
 The complete API design lives in [`openapi.yaml`](./openapi.yaml).  
 You can view it in:
-- **SwaggerHub:** [patient-micro-service v0.1.0](https://app.swaggerhub.com/apis/your-username/patient-micro-service/0.1.0) *(replace with your real link)*
+- **SwaggerHub:** [[patient-micro-service v0.1.0](https://app.swaggerhub.com/apis/your-username/patient-micro-service/0.1.0](https://app.swaggerhub.com/apis/columbiauniversity-6bc/patient-micro-service/0.1.0))
 - **Swagger Editor:** [https://editor.swagger.io](https://editor.swagger.io) → *File → Import File → select `openapi.yaml`*
 - **Local mock:** see below for Prism instructions.
 

@@ -1,0 +1,234 @@
+openapi: 3.0.3
+info:
+  title: Patient Profile & History Service
+  version: 0.1.0
+  description: >
+    Microservice 3. Stores patient profiles and their appointment history,
+    with links to transcripts and summaries. Sprint 1 delivers API-first
+    design where all endpoints return 501 Not Implemented.
+
+servers:
+  - url: https://api.example.com/patient-profile
+    description: Placeholder server (future)
+  - url: http://localhost:4010
+    description: Local mock (e.g., Prism)
+
+tags:
+  - name: Patients
+  - name: Appointments
+  - name: Transcriptions
+
+paths:
+  /patients:
+    get:
+      tags: [Patients]
+      summary: List patients
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    post:
+      tags: [Patients]
+      summary: Create a patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PatientCreate' }
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /patients/{patientId}:
+    parameters:
+      - in: path
+        name: patientId
+        required: true
+        schema: { type: string, example: pat_001 }
+    get:
+      tags: [Patients]
+      summary: Get a patient by ID
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    put:
+      tags: [Patients]
+      summary: Update a patient by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PatientUpdate' }
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    delete:
+      tags: [Patients]
+      summary: Delete a patient by ID
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /patients/{patientId}/appointments:
+    parameters:
+      - in: path
+        name: patientId
+        required: true
+        schema: { type: string, example: pat_001 }
+    get:
+      tags: [Appointments]
+      summary: List appointments for a patient
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    post:
+      tags: [Appointments]
+      summary: Create an appointment for a patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AppointmentCreate' }
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /patients/{patientId}/appointments/{appointmentId}:
+    parameters:
+      - in: path
+        name: patientId
+        required: true
+        schema: { type: string, example: pat_001 }
+      - in: path
+        name: appointmentId
+        required: true
+        schema: { type: string, example: appt_123 }
+    get:
+      tags: [Appointments]
+      summary: Get an appointment by ID
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    delete:
+      tags: [Appointments]
+      summary: Delete an appointment by ID
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /patients/{patientId}/transcriptions:
+    parameters:
+      - in: path
+        name: patientId
+        required: true
+        schema: { type: string, example: pat_001 }
+    get:
+      tags: [Transcriptions]
+      summary: List transcriptions for a patient
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+    post:
+      tags: [Transcriptions]
+      summary: Attach a transcription record to a patient
+      description: Usually created by the Transcription Service; this endpoint stores or links it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TranscriptionCreate' }
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+  /patients/{patientId}/transcriptions/{transcriptionId}:
+    parameters:
+      - in: path
+        name: patientId
+        required: true
+        schema: { type: string, example: pat_001 }
+      - in: path
+        name: transcriptionId
+        required: true
+        schema: { type: string, example: tr_789 }
+    get:
+      tags: [Transcriptions]
+      summary: Get a transcription by ID
+      responses:
+        '501': { $ref: '#/components/responses/NotImplemented' }
+
+components:
+  schemas:
+    Patient:
+      type: object
+      required: [id, firstName, lastName, dob, createdAt, updatedAt]
+      properties:
+        id: { type: string, example: pat_001 }
+        firstName: { type: string, example: Ada }
+        lastName: { type: string, example: Lovelace }
+        dob: { type: string, format: date, example: 1990-01-01 }
+        email: { type: string, format: email, example: ada@example.com }
+        phone: { type: string, example: "+1-555-0100" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    PatientCreate:
+      type: object
+      required: [firstName, lastName, dob]
+      properties:
+        firstName: { type: string }
+        lastName: { type: string }
+        dob: { type: string, format: date }
+        email: { type: string, format: email }
+        phone: { type: string }
+
+    PatientUpdate:
+      allOf:
+        - $ref: '#/components/schemas/PatientCreate'
+
+    Appointment:
+      type: object
+      required: [id, patientId, date]
+      properties:
+        id: { type: string, example: appt_123 }
+        patientId: { type: string, example: pat_001 }
+        date: { type: string, format: date, example: 2025-10-01 }
+        doctor: { type: string, example: "Dr. Grey" }
+        summaryId: { type: string, example: sum_456 }
+        transcriptionId: { type: string, example: tr_789 }
+
+    AppointmentCreate:
+      type: object
+      required: [date]
+      properties:
+        date: { type: string, format: date }
+        doctor: { type: string }
+        summaryId: { type: string }
+        transcriptionId: { type: string }
+
+    Transcription:
+      type: object
+      required: [id, patientId, text, createdAt]
+      properties:
+        id: { type: string, example: tr_789 }
+        patientId: { type: string, example: pat_001 }
+        appointmentId: { type: string, example: appt_123 }
+        text: { type: string, example: "Patient reports mild headache..." }
+        createdAt: { type: string, format: date-time }
+
+    TranscriptionCreate:
+      type: object
+      required: [text]
+      properties:
+        appointmentId: { type: string }
+        text: { type: string }
+
+    Error:
+      type: object
+      required: [status, code, message]
+      properties:
+        status: { type: integer, example: 501 }
+        code: { type: string, example: NOT_IMPLEMENTED }
+        message: { type: string, example: "Endpoint stub for Sprint 1" }
+        details: { type: object, additionalProperties: true }
+
+  responses:
+    NotImplemented:
+      description: Not implemented for Sprint 1
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          examples:
+            stub:
+              value:
+                status: 501
+                code: NOT_IMPLEMENTED
+                message: Endpoint stub for Sprint 1

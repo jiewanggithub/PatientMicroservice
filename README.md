@@ -45,7 +45,7 @@ You can view it in:
 
 ---
 
-### 📅 Appointments
+### 📅 Appointments （Placerholder model 1）
 | Method | Path | Description |
 |:------:|:-----|:------------|
 | `GET` | `/patients/{patientId}/appointments` | List a patient’s appointments |
@@ -55,7 +55,7 @@ You can view it in:
 
 ---
 
-### 🎙 Transcriptions
+### 🎙 Transcriptions (Placeholder model 2)
 | Method | Path | Description |
 |:------:|:-----|:------------|
 | `GET` | `/patients/{patientId}/transcriptions` | List transcriptions for a patient |

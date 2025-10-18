@@ -87,6 +87,8 @@ curl -X POST "http://127.0.0.1:8000/patients" \
 -H "Content-Type: application/json" \
 -d '{"name": "John Doe", "age": 30, "condition": "Flu"}'
 
+cd ~/PatientMicroservice/PatientMicroservices
+source .venv/bin/activate
 
 ```json
 {

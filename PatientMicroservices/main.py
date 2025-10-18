@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from models.db import get_db, Base, engine
+from db import get_db, Base, engine
 from models.models import PatientORM
 from models.patient import PatientCreate, PatientUpdate, PatientRead
 

@@ -1,4 +1,4 @@
-# 🧠 Patient Profile & History Microservice
+# 🧠 Patient Microservice
 
 This repository contains **Microservice 3** of our team project: the **Patient Profile
 This service is designed **API-first**, using **Swagger (OpenAPI 3.0)** to describe the endpoints before implementing any backend code.

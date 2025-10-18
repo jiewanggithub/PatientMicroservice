@@ -64,6 +64,30 @@ You can view it in:
 
 All endpoints currently return:
 
+---
+
+🧩 MySQL Database Commands
+- Start MySQL service: sudo service mysql start
+- Log in as root user: mysql -u root -p
+- Create database for microservice: CREATE DATABASE patient_db;
+- Use the database: USE patient_db;
+- Show all tables: SHOW TABLES;
+- View table data: SELECT * FROM patients;
+
+---
+🚀 Run FastAPI / Microservice
+Start the FastAPI server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+Send GET request (check service is up)
+curl http://127.0.0.1:8000/patients
+
+Example POST request with JSON body
+curl -X POST "http://127.0.0.1:8000/patients" \
+-H "Content-Type: application/json" \
+-d '{"name": "John Doe", "age": 30, "condition": "Flu"}'
+
+
 ```json
 {
   "status": 501,

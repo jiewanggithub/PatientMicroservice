@@ -149,6 +149,7 @@ class PatientRead(PatientBase):
     updated_at: Optional[datetime] = Field(None, description="Last update timestamp (UTC).")
 
     model_config = {
+        "from_attributes": True,
         "title": "PatientRead",
         "description": "Schema for patient data returned from the API (GET endpoints).",
         "json_schema_extra": {

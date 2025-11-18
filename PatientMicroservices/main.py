@@ -44,7 +44,6 @@ def get_patient(
     if not row:
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    # --- Generate ETag value ---
     timestamp = (
         row.updated_at.timestamp()
         if row.updated_at
@@ -52,19 +51,17 @@ def get_patient(
     )
     etag_value = f'W/"{timestamp}"'
 
-    # --- Read client’s If-None-Match ---
     client_etag = request.headers.get("if-none-match")
 
-    # --- If ETag matches → return 304 ---
     if client_etag == etag_value:
         return Response(status_code=304)
 
-    # --- Otherwise return 200 + JSON + ETag header ---
     response = JSONResponse(
         content=PatientRead.model_validate(row).model_dump()
     )
     response.headers["ETag"] = etag_value
     return response
+
 
 @app.put("/patients/{patient_id}", response_model=PatientRead)
 def update_patient(patient_id: str, payload: PatientUpdate, db: Session = Depends(get_db)):

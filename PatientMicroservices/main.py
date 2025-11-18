@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Request, Response
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from db import get_db, Base, engine
 from models.models import PatientORM

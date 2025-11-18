@@ -90,9 +90,13 @@ curl -X POST "http://127.0.0.1:8000/patients" \
 cd ~/PatientMicroservice/PatientMicroservices
 source .venv/bin/activate
 
+### 📊 Usage of Mysql Database
+| Command | Description |
+|:------:|:------------|
+| `sudo service mysql start` | Start MySQL |
+| `sudo service mysql stop` | Stop MySQL |
+| `sudo service mysql restart` | Restart MySQL |
+| `mysql -h 10.128.0.5 -u appuser -p` | Log into the MySQL database running on another VM
+(IP: 10.128.0.5) (password: 12345) |
+
 ```json
-{
-  "status": 501,
-  "code": "NOT_IMPLEMENTED",
-  "message": "Endpoint stub for Sprint 1"
-}

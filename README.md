@@ -96,7 +96,6 @@ source .venv/bin/activate
 | `sudo service mysql start` | Start MySQL |
 | `sudo service mysql stop` | Stop MySQL |
 | `sudo service mysql restart` | Restart MySQL |
-| `mysql -h 10.128.0.5 -u appuser -p` | Log into the MySQL database running on another VM
-(IP: 10.128.0.5) (password: 12345) |
+| `mysql -h 10.128.0.5 -u appuser -p` | Log into the MySQL database running on another VM (IP: 10.128.0.5) (password: 12345) |
 
 ```json

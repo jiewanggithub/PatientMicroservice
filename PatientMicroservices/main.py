@@ -10,10 +10,6 @@ app = FastAPI(title="PatientMicroservice API", version="1.0.0")
 def create_tables():
     Base.metadata.create_all(bind=engine)
 
-# --- Patient CRUD only ---
-@app.get("/patients", response_model=list[PatientRead])
-def list_patients(db: Session = Depends(get_db)):
-    return db.query(PatientORM).all()
 
 @app.post("/patients", response_model=PatientRead, status_code=status.HTTP_201_CREATED)
 def create_patient(payload: PatientCreate, db: Session = Depends(get_db)):
@@ -22,6 +18,21 @@ def create_patient(payload: PatientCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(row)
     return row
+
+@app.get("/patients", response_model=list[PatientRead])
+def list_patients(
+    limit: int = 10,
+    offset: int = 0,
+    db: Session = Depends(get_db)
+):
+    return (
+        db.query(PatientORM)
+        .order_by(PatientORM.created_at)  # optional, but best practice
+        .limit(limit)
+        .offset(offset)
+        .all()
+    )
+
 
 @app.get("/patients/{patient_id}", response_model=PatientRead)
 def get_patient(patient_id: str, db: Session = Depends(get_db)):

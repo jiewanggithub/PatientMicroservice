@@ -33,32 +33,34 @@ def list_patients(
         .all()
     )
 
-
-@app.get("/patients/{patient_id}", response_model=PatientRead)
+@app.get("/patients/{patient_id}", response_model=None)
 def get_patient(
     patient_id: str,
     request: Request,
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db)
 ):
     row = db.query(PatientORM).get(patient_id)
     if not row:
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    # --- Generate ETag based on updated_at ---
-    etag_value = f"W/\"{row.updated_at.timestamp() if row.updated_at else row.created_at.timestamp()}\""
+    # --- Generate ETag value ---
+    timestamp = (
+        row.updated_at.timestamp()
+        if row.updated_at
+        else row.created_at.timestamp()
+    )
+    etag_value = f'W/"{timestamp}"'
 
-    # --- Check If-None-Match header from client ---
+    # --- Read client’s If-None-Match ---
     client_etag = request.headers.get("if-none-match")
 
+    # --- If ETag matches → return 304 ---
     if client_etag == etag_value:
-        # Client already has the latest version
         return Response(status_code=304)
 
-    # Otherwise return patient data + send new ETag
-    response = Response(
-        content=row.to_json(), 
-        media_type="application/json",
-        status_code=200
+    # --- Otherwise return 200 + JSON + ETag header ---
+    response = JSONResponse(
+        content=PatientRead.model_validate(row).model_dump()
     )
     response.headers["ETag"] = etag_value
     return response

@@ -20,6 +20,6 @@ class PatientORM(Base):
     email: Mapped[str | None] = mapped_column(String(255), nullable=True)
     address: Mapped[str | None] = mapped_column(Text, nullable=True)
     emergency_contact: Mapped[str | None] = mapped_column(Text, nullable=True)
-
+    condition: Mapped[str | None] = mapped_column(String(255), nullable=True)
     created_at: Mapped[str] = mapped_column(TIMESTAMP, server_default=func.current_timestamp())
     updated_at: Mapped[str | None] = mapped_column(TIMESTAMP, nullable=True, onupdate=func.current_timestamp())

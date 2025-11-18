@@ -6,13 +6,11 @@ This service is designed **API-first**, using **Swagger (OpenAPI 3.0)** to descr
 ---
 
 ## 🧩 API Specification
-
 The complete API design lives in [`openapi.yaml`](./openapi.yaml).  
 You can view it in:
 - **SwaggerHub:** [patient-micro-service v0.1.0](https://app.swaggerhub.com/apis/columbiauniversity-6bc/patient-micro-service/0.1.0)
 - **Swagger Editor:** [https://editor.swagger.io](https://editor.swagger.io) → *File → Import File → select `openapi.yaml`*
 - **Local mock:** see below for Prism instructions.
-
 **Version:** `0.1.0`  
 **Status:** Draft / Sprint 1 deliverable  
 
@@ -30,33 +28,18 @@ You can view it in:
 | `DELETE` | `/patients/{patientId}` | Delete a patient record |
 
 ---
-All endpoints currently return:
 
----
-
-🧩 MySQL Database Commands
-- Start MySQL service: sudo service mysql start
-- Log in as root user: mysql -u root -p
-- Create database for microservice: CREATE DATABASE patient_db;
-- Use the database: USE patient_db;
-- Show all tables: SHOW TABLES;
-- View table data: SELECT * FROM patients;
-
----
-🚀 Run FastAPI / Microservice
-Start the FastAPI server
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-
-Send GET request (check service is up)
-curl http://127.0.0.1:8000/patients
-
-Example POST request with JSON body
-curl -X POST "http://127.0.0.1:8000/patients" \
+###🚀 Run FastAPI / Microservice
+| Command | Description |
+|:------:|:------------|
+| `uvicorn main:app --reload --host 0.0.0.0 --port 8000` | Start the FastAPI server|
+| `curl http://127.0.0.1:8000/patients` | Send GET request (check service is up) |
+| `curl -X POST "http://127.0.0.1:8000/patients" \
 -H "Content-Type: application/json" \
--d '{"name": "John Doe", "age": 30, "condition": "Flu"}'
+-d '{"name": "John Doe", "age": 30, "condition": "Flu"}'` | POST request |
+| `source .venv/bin/activate` | activate the .venv environment |
 
-cd ~/PatientMicroservice/PatientMicroservices
-source .venv/bin/activate
+---
 
 ### 📊 Usage of Mysql Database
 | Command | Description |

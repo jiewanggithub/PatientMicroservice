@@ -4,6 +4,10 @@ from sqlalchemy.orm import Session
 from db import get_db, Base, engine
 from models.models import PatientORM
 from models.patient import PatientCreate, PatientUpdate, PatientRead
+from fastapi import Request, Response, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+
 
 app = FastAPI(title="PatientMicroservice API", version="1.0.0")
 
@@ -57,7 +61,7 @@ def get_patient(
         return Response(status_code=304)
 
     response = JSONResponse(
-        content=PatientRead.model_validate(row).model_dump()
+        content=jsonable_encoder(PatientRead.model_validate(row))
     )
     response.headers["ETag"] = etag_value
     return response

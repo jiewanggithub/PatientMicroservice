@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Response
 from sqlalchemy.orm import Session
 from db import get_db, Base, engine
 from models.models import PatientORM
@@ -35,11 +35,33 @@ def list_patients(
 
 
 @app.get("/patients/{patient_id}", response_model=PatientRead)
-def get_patient(patient_id: str, db: Session = Depends(get_db)):
+def get_patient(
+    patient_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+):
     row = db.query(PatientORM).get(patient_id)
     if not row:
-        raise HTTPException(404, "Patient not found")
-    return row
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    # --- Generate ETag based on updated_at ---
+    etag_value = f"W/\"{row.updated_at.timestamp() if row.updated_at else row.created_at.timestamp()}\""
+
+    # --- Check If-None-Match header from client ---
+    client_etag = request.headers.get("if-none-match")
+
+    if client_etag == etag_value:
+        # Client already has the latest version
+        return Response(status_code=304)
+
+    # Otherwise return patient data + send new ETag
+    response = Response(
+        content=row.to_json(), 
+        media_type="application/json",
+        status_code=200
+    )
+    response.headers["ETag"] = etag_value
+    return response
 
 @app.put("/patients/{patient_id}", response_model=PatientRead)
 def update_patient(patient_id: str, payload: PatientUpdate, db: Session = Depends(get_db)):

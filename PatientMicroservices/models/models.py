@@ -1,7 +1,7 @@
 # models.py
 from __future__ import annotations
 from sqlalchemy import String, Date, Text, TIMESTAMP, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, String, DateTime
 from db import Base
 import uuid
 import json

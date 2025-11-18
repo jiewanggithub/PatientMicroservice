@@ -13,7 +13,7 @@ class PatientBase(BaseModel):
 
     id: UUID = Field(
         default_factory=uuid4,
-        description="Persistent Address ID (server-generated).",
+        description="Unique patient ID (server-generated).",
         json_schema_extra={"example": "550e8400-e29b-41d4-a716-446655440000"},
     )
 
@@ -54,8 +54,15 @@ class PatientBase(BaseModel):
     )
     emergency_contact: Optional[str] = Field(
         None,
-        description="Emergency contact name and relationship (e.g., Jane Doe - spouse).",
+        description="Emergency contact (name and relationship).",
         json_schema_extra={"example": "Jane Doe (Spouse)"},
+    )
+
+    # 🆕 Add condition
+    condition: Optional[str] = Field(
+        None,
+        description="Current condition, symptoms, or medical notes.",
+        json_schema_extra={"example": "High fever and persistent cough"},
     )
 
     model_config = {
@@ -72,12 +79,14 @@ class PatientBase(BaseModel):
                     "email": "john.doe@example.com",
                     "address": "123 Main St, New York, NY 10001",
                     "emergency_contact": "Jane Doe (Spouse)",
+                    "condition": "High fever and cough",
                 },
                 {
                     "first_name": "Alice",
                     "last_name": "Nguyen",
                     "gender": "female",
                     "email": "alice.nguyen@healthcare.org",
+                    "condition": "Chest pain",
                 },
             ]
         },
@@ -99,6 +108,7 @@ class PatientCreate(PatientBase):
                 "phone_number": "+1-555-123-4567",
                 "address": "123 Main St, New York, NY 10001",
                 "emergency_contact": "Jane Doe (Spouse)",
+                "condition": "High fever for 2 days",
             }
         },
     }
@@ -115,6 +125,7 @@ class PatientUpdate(BaseModel):
     email: Optional[EmailStr] = None
     address: Optional[str] = None
     emergency_contact: Optional[str] = None
+    condition: Optional[str] = None  # 🆕 Added here
 
     model_config = {
         "title": "PatientUpdate",
@@ -124,6 +135,7 @@ class PatientUpdate(BaseModel):
                 "email": "john.new@example.com",
                 "phone_number": "+1-555-987-6543",
                 "address": "456 Park Ave, Brooklyn, NY 11201",
+                "condition": "Symptoms improving after medication",
             }
         },
     }
@@ -149,6 +161,7 @@ class PatientRead(PatientBase):
                 "phone_number": "+1-555-123-4567",
                 "address": "123 Main St, New York, NY 10001",
                 "emergency_contact": "Jane Doe (Spouse)",
+                "condition": "High fever and cough",
                 "created_at": "2025-10-17T14:32:00Z",
                 "updated_at": "2025-10-18T09:15:00Z",
             }

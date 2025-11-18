@@ -44,7 +44,6 @@ def get_patient(
     request: Request,
     db: Session = Depends(get_db)
 ):
-    print(">>> USING NEW ETAG ENDPOINT <<<") 
     row = db.query(PatientORM).get(patient_id)
     if not row:
         raise HTTPException(status_code=404, detail="Patient not found")

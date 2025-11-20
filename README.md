@@ -38,6 +38,9 @@ You can view it in:
 -H "Content-Type: application/json" \
 -d '{"name": "John Doe", "age": 30, "condition": "Flu"}'` | POST request |
 | `source .venv/bin/activate` | activate the .venv environment |
+| `curl -i http://127.0.0.1:8000/patients/<id>` | Retrieving patient by patient id|
+| `curl -i "http://127.0.0.1:8000/patients/patient-d" \
+  -H 'If-None-Match: W/"<your-etag-here>"' ` | chekcing wether or not is been modified |
 
 ---
 
